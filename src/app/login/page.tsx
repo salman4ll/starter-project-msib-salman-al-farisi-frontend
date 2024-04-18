@@ -28,13 +28,13 @@ export default function Login() {
           objectFit: "cover",
         }}
       />
-      <div className="w-[90%] p-6 m-auto bg-white rounded-[10px] lg:max-w-xl z-10">
+      <div className="w-[90%] p-6 m-auto bg-white rounded-[10px] lg:max-w-lg z-10">
         <div className="w-full text-center">
           <Image
             alt="logo ambis kerja"
             src={imgLogo}
             width={1000}
-            className="w-8 m-auto"
+            className="w-12 m-auto"
           />
           <h1 className="text-2xl font-medium mt-5">Log In</h1>
           <div className="flex justify-center text-xs md:text-base">
