@@ -107,9 +107,9 @@ export default function Login() {
                 />
               </div>
               <Link href="#" className="flex justify-end text-[14px] mt-2 underline">Forget your password</Link>              
-              <button type="submit" className="w-full flex justify-center bg-[#B2B2B2] hover:bg-[#666666] text-white rounded-[40px] py-3 mt-6">
+              <Link href="/profile" className="w-full flex justify-center bg-[#B2B2B2] hover:bg-[#666666] text-white rounded-[40px] py-3 mt-6">
                 Log In
-              </button>
+              </Link>
             </form>            
           </div>
         </div>
