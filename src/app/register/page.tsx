@@ -119,9 +119,9 @@ export default function Register() {
                       symbols
                     </label>
                   </div>
-                  <button type="submit" className="w-full flex justify-center bg-[#B2B2B2] hover:bg-[#666666] text-white rounded-[40px] py-3 mt-6">
+                  <Link href="/login" className="w-full flex justify-center bg-[#B2B2B2] hover:bg-[#666666] text-white rounded-[40px] py-3 mt-6">
                 Create an account
-              </button>
+              </Link>
                 </div>
               </form>
             </div>
