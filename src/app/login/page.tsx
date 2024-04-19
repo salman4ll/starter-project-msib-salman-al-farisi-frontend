@@ -38,7 +38,7 @@ export default function Login() {
           />
           <h1 className="text-2xl font-medium mt-5">Log In</h1>
           <div className="flex justify-center text-xs md:text-base">
-            <p className="font-normal mr-1">Don't have an account? </p>{" "}
+          <p className="font-normal mr-1">Dont have an account? </p>
             <Link href="/register" className="underline">
               Sign up
             </Link>{" "}
