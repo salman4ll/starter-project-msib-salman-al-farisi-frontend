@@ -30,7 +30,7 @@ export default function Register() {
       />
       <div className="w-[90%] p-6 m-auto bg-white rounded-[10px] lg:max-w-3xl z-10">
         <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2">
+          <div className="col-span-3 md:col-span-2">
             <div className="w-full mb-6">
               <Image
                 alt="logo ambis kerja"
@@ -78,7 +78,7 @@ export default function Register() {
                       placeholder="example@gmail.com"
                     ></input>
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <div className="flex justify-between">
                       <label
                         htmlFor="password"
@@ -94,7 +94,7 @@ export default function Register() {
                       placeholder="******"
                     />
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <div className="flex justify-between">
                       <label
                         htmlFor="password"
@@ -126,7 +126,7 @@ export default function Register() {
               </form>
             </div>
           </div>
-          <div className="flex flex-col justify-center m-auto ml-4">
+          <div className="flex flex-col justify-center m-auto ml-4 max-md:hidden">
             <Image alt="Image Register" src={imageRegis} width={1000}/>
           </div>
         </div>

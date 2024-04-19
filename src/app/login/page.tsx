@@ -62,7 +62,7 @@ export default function Login() {
             <hr className="w-[100%] ml-3 border-[1px]" />
           </div>
           <div>
-            <form action="" method="post" className="mt-4">
+            <form action="/" method="post" className="mt-4">
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -75,6 +75,7 @@ export default function Login() {
                   id="email"
                   type="email"
                   placeholder="example@gmail.com"
+                  value="salman4l_alfarisi@apps.ipb.ac.id"
                 ></input>
               </div>
               <div>
