@@ -1,6 +1,5 @@
 "use client";
-import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 interface MenuItem {
   name: string;

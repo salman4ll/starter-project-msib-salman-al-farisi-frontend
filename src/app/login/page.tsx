@@ -1,19 +1,141 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import imgBg from "@/assets/images/bg.png";
 import imgLogo from "@/assets/images/logo.png";
 import googleLogo from "@/assets/images/googleLogo.png";
 
 import Link from "next/link";
-
 import { Icon } from "@iconify/react";
+import { signIn, useSession } from "next-auth/react";
+import { Spinner, useToast } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const toast = useToast();
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError("");
+      }, 1000);
+    }
+  }, [formValues]);
+
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return (
+      <div className="flex w-full mx-auto justify-center items-center h-screen">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </div>
+    );
+  }
+
+  if (status === "authenticated") {
+    if (session?.user?.role === "user") {
+      router.push("/profile");
+      return (
+        <div className="flex w-full mx-auto justify-center items-center h-screen">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </div>
+      );
+    } else if (session?.user?.role === "admin") {
+      router.push("/admin");
+      return (
+        <div className="flex w-full mx-auto justify-center items-center h-screen">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </div>
+      );
+    }
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      setFormValues({
+        email: formValues.email,
+        password: "",
+      });
+
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: formValues.email,
+        password: formValues.password,
+      });
+      setLoading(false);
+
+      if (res?.error) {
+        setError(res.error);
+        toast({
+          title: "Error",
+          description: res.error,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+        return;
+      } else {
+        toast({
+          title: "Success",
+          description: "Login success",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+
+        setTimeout(() => {
+          if (session?.user?.role === "user") {
+            router.push("/profile");
+          } else if (session?.user?.role === "admin") {
+            router.push("/admin");
+          }
+        }, 3000);
+      }
+    } catch (error: any) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -38,7 +160,7 @@ export default function Login() {
           />
           <h1 className="text-2xl font-medium mt-5">Log In</h1>
           <div className="flex justify-center text-xs md:text-base">
-          <p className="font-normal mr-1">Dont have an account? </p>
+            <p className="font-normal mr-1">Dont have an account? </p>
             <Link href="/register" className="underline">
               Sign up
             </Link>{" "}
@@ -53,7 +175,9 @@ export default function Login() {
                 width={1000}
                 className="w-[24px] mr-3"
               />
-              <p className="md:font-bold font-semibold text-[14px] md:text-lg">Login With Google</p>
+              <p className="md:font-bold font-semibold text-[14px] md:text-lg">
+                Login With Google
+              </p>
             </div>
           </Link>
           <div className="flex mt-6 items-center">
@@ -62,7 +186,7 @@ export default function Login() {
             <hr className="w-[100%] ml-3 border-[1px]" />
           </div>
           <div>
-            <form action="/" method="post" className="mt-4">
+            <form onSubmit={onSubmit} className="mt-4">
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -75,7 +199,9 @@ export default function Login() {
                   id="email"
                   type="email"
                   placeholder="example@gmail.com"
-                  value="salman4l_alfarisi@apps.ipb.ac.id"
+                  name="email"
+                  value={formValues.email}
+                  onChange={handleChange}
                 ></input>
               </div>
               <div>
@@ -96,7 +222,9 @@ export default function Login() {
                       icon={showPassword ? "ri:eye-off-fill" : "ri:eye-fill"}
                       className="text-[#666666] mr-1"
                     />
-                    <p className="text-[#666666]">{showPassword ? "Hide" : "Show"}</p>
+                    <p className="text-[#666666]">
+                      {showPassword ? "Hide" : "Show"}
+                    </p>
                   </button>
                 </div>
                 <input
@@ -104,13 +232,24 @@ export default function Login() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="******"
+                  name="password"
+                  value={formValues.password}
+                  onChange={handleChange}
                 />
               </div>
-              <Link href="#" className="flex justify-end text-[14px] mt-2 underline">Forget your password</Link>              
-              <Link href="/profile" className="w-full flex justify-center bg-[#B2B2B2] hover:bg-[#666666] text-white rounded-[40px] py-3 mt-6">
-                Log In
+              <Link
+                href="#"
+                className="flex justify-end text-[14px] mt-2 underline"
+              >
+                Forget your password
               </Link>
-            </form>            
+              <button
+                type="submit"
+                className="w-full flex justify-center bg-[#B2B2B2] hover:bg-[#666666] text-white rounded-[40px] py-3 mt-6"
+              >
+                Log In
+              </button>
+            </form>
           </div>
         </div>
       </div>

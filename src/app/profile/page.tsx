@@ -9,8 +9,47 @@ import InformasiUmum from "@/components/profile/InformasiUmum";
 import CvPortofolio from "@/components/profile/CvPortofolio";
 import PekerjaanTersimpan from "@/components/profile/PekerjaanTersimpang";
 import PendaftaranSaya from "@/components/profile/PendaftaranSaya";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Profile() {
+  const route = useRouter();
+  const { data: session, status } = useSession();
+  if (status === 'loading') {
+    return (
+      <div style={
+        {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw',
+        }
+      }>
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    )
+  }
+
+  if(session?.user?.email === undefined) {
+    route.push('/login');
+    return (
+      <div style={
+        {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw',
+        }
+      }>
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    )
+  }
+
+
+
   const [navselectedNav, setnavselectedNav] = useState("InformasiUmum");
 
   const handleChangeNav = (Nav: any) => {
@@ -24,12 +63,12 @@ export default function Profile() {
           <div className="w-[98%] p-4 bg-[#c8abd860] rounded-md">
             <div className="grid grid-cols-12">
               <div className="row-span-2 max-md:col-span-2 mr-4">
-                <FaCircleUser className="text-4xl flex flex-col h-full justify-center m-auto" />
+                <FaCircleUser className="text-4xl flex flex-col h-full justify-center text-[#4C2A76]" />
               </div>
               <div className="col-span-9 md:col-span-11 flex">
                 <h1 className="font-semibold mr-2">Salman Al-Farisi</h1>
                 <button>
-                  <FiEdit3 className="text-[#4C2A76] stroke-[3px] text-xl" />
+                  <FiEdit3 className="button-edit text-[#4C2A76] stroke-[3px] text-xl" />
                 </button>
               </div>
               <div className="col-span-9 md:col-span-11">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaUserLarge } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,8 +15,6 @@ const InformasiUmum = () => {
   const [formData, setFormData] = useState({ ...initialData });
   const [formChanged, setFormChanged] = useState(false);
 
-  
-
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -25,6 +23,7 @@ const InformasiUmum = () => {
     }));
     setFormChanged(true);
   };
+
   const handleYearChange = (date: any) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -48,7 +47,7 @@ const InformasiUmum = () => {
   return (
     <div className="mt-8 p-6 mb-10">
       <div className="flex items-center">
-        <FaUserLarge />
+        <FaUserLarge className="text-[#4C2A76]"/>
         <h1 className="font-semibold ml-4">Informasi Umum</h1>
       </div>
       <hr className="w-[100%] mt-4 border-[1px] border-slate-300" />
